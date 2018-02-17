@@ -9,7 +9,7 @@ let StudentSchema = new Schema({
         required: 'Enter the name of the student'
     },
     age: {
-        type: integer,
+        type: Number,
         required: 'Enter the age of the student'
     },
 });
