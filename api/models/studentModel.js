@@ -1,9 +1,7 @@
-'use strict';
-
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
-let StudentSchema = new Schema({
+const StudentSchema = new Schema({
     name: {
         type: String,
         required: 'Enter the name of the student'
@@ -14,4 +12,4 @@ let StudentSchema = new Schema({
     },
 });
 
-module.exports = mongoose.model('Student', StudentSchema);
+export default mongoose.model('Student', StudentSchema);

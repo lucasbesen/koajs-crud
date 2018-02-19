@@ -1,5 +1,4 @@
-'use strict';
-module.exports = (router) => {
+export default function routes(router) {
     let studentController = require('../controllers/studentController');
 
     router.get('/student', studentController.list_all_students);

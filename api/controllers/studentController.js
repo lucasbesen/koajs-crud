@@ -1,11 +1,9 @@
-'use strict';
-
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 let Student = mongoose.model('Student');
 
 exports.list_all_students = async (ctx, next) => {
     try {
-        var student = await Student.find({});
+        let student = await Student.find({});
         ctx.body = student;
     } catch (err) {
         ctx.status = err.status || 500;
@@ -15,7 +13,7 @@ exports.list_all_students = async (ctx, next) => {
 
 exports.create_a_student = async (ctx, next) => {
     try {
-        var new_student = new Student(ctx.request.body);
+        let new_student = new Student(ctx.request.body);
         await new_student.save();
         ctx.body = new_student;   
     } catch (err) {
@@ -26,7 +24,7 @@ exports.create_a_student = async (ctx, next) => {
 
 exports.read_a_student = async (ctx, next) => {
     try {
-        var student = await Student.findById(ctx.params.studentId);
+        let student = await Student.findById(ctx.params.studentId);
         ctx.body = student;
     } catch (error) {
         ctx.status = err.status || 500;
@@ -36,7 +34,7 @@ exports.read_a_student = async (ctx, next) => {
 
 exports.update_a_student = async (ctx, next) => {
     try {
-        var student = await Student.findOneAndUpdate({_id: ctx.params.studentId}, ctx.request.body, {new: true});
+        let student = await Student.findOneAndUpdate({_id: ctx.params.studentId}, ctx.request.body, {new: true});
         ctx.body = student;
     } catch (error) {
         ctx.status = err.status || 500;
@@ -46,7 +44,7 @@ exports.update_a_student = async (ctx, next) => {
 
 exports.delete_a_student = async (ctx, next) => {
     try {
-        var student = await Student.remove({_id: ctx.params.studentId});
+        let student = await Student.remove({_id: ctx.params.studentId});
         ctx.body = {message: 'Student successfully deleted'};   
     } catch (error) {
         ctx.status = err.status || 500;

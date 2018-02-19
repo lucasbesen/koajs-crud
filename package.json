@@ -5,12 +5,14 @@
   "main": "server.js",
   "scripts": {
     "test": "jest",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js --exec babel-node --presets es2015,stage-2"
   },
   "author": "lucasbesen",
   "license": "ISC",
   "dependencies": {
+    "babel-preset-flow": "^6.23.0",
     "eslint": "^4.18.0",
+    "flow-bin": "^0.66.0",
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.0",
     "koa-respond": "^1.0.1",
@@ -18,6 +20,9 @@
     "mongoose": "^5.0.6"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
     "jest": "^22.3.0",
     "nodemon": "^1.15.0",
     "supertest": "^3.0.0"
