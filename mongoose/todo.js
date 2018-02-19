@@ -1,10 +1,13 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+import mongoose from 'mongoose';
 
-var toDoSchema = new Schema({
+const Schema = mongoose.Schema;
+
+const toDoSchema = new Schema({
     itemId: Number,
     item: String,
     completed: Boolean
 }, {collection:"TodoList"});
 
-module.exports = mongoose.model('ToDo', toDoSchema);;
+const ToDo = mongoose.model('ToDo', toDoSchema);
+
+export default ToDo

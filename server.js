@@ -1,41 +1,39 @@
-var path = require('path');
-var express = require('express');
-var mongoose = require('mongoose');
-var ToDo = require('./mongoose/todo');
-var bodyParser = require('body-parser');
+import Koa from 'koa';
+import Router from 'koa-router';
+import mongoose from 'mongoose';
+import bodyParser from 'koa-bodyparser';
+import respond from 'koa-respond';
+import ToDo from './mongoose/todo'
+import schema from './graphql/Schema/Schema';
+import {graphql} from 'graphql'
+import graphqlHTTP from 'koa-graphql';
 
-var app = express();
+const app = new Koa();
+const router = Router();
+const db = mongoose.connection;
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser());
+app.use(respond());
+mongoose.connect('mongodb://localhost:27017/local');
 
-app.listen(3000, () => {
-    console.log('listening on 3000');
+router.get('/graphql', graphqlHTTP (ctx => ({
+    schema 
+    //,graphiql:true
+})));
+
+router.post('/quotes', async (ctx,next)=>{
+	try {
+        const todoItem = new ToDo(ctx.request.body);
+		await todoItem.save();
+		
+        ctx.body = todoItem;
+    } catch (err) {
+        ctx.status = err.status || 500;
+        ctx.body = err.message;
+	}
 });
 
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
-});
+app.use(router.routes())
+    .use(router.allowedMethods());
 
-mongoose.connect('mongodb://localhost:27017/local')
-var db = mongoose.connection;
-db.on('error', ()=> {console.log( '---FAILED to connect to mongoose')})
-db.once('open', () => {
- console.log( '+++Connected to mongoose')
-})
-
-app.post('/quotes', (req, res) => {
-
-    var todoItem = new ToDo({
-        itemId: 1,
-        item: req.body.item,
-        completed: false
-    })
-    todoItem.save((err, result) => {
-        if (err) {
-            console.log('error')
-        }
-        console.log(todoItem.item);
-        res.redirect('/');
-    })
-});
+app.listen(3000);
